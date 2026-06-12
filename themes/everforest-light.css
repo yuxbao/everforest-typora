@@ -41,6 +41,9 @@
   --accent: var(--ef-green);
   --accent-2: var(--ef-blue);
   --selection: #e0e6c9;
+  --source-selection: rgba(141, 161, 1, 0.24);
+  --select-text-bg-color: var(--selection);
+  --select-text-font-color: var(--text);
 
   /* Typora UI Variables */
   --bg-color: var(--bg);
@@ -114,7 +117,13 @@ body,
 }
 
 ::selection {
-  background: var(--selection);
+  background: var(--select-text-bg-color);
+  color: var(--select-text-font-color);
+}
+
+pre {
+  --select-text-bg-color: var(--source-selection);
+  --select-text-font-color: var(--text);
 }
 
 /* Scrollbar */
@@ -850,9 +859,56 @@ body,
   background: transparent !important;
 }
 
+/* ==== Make math blocks inherit the code-fence surface ==== */
+#write .md-math-block:hover .md-math-container,
+#write .md-math-block:hover .md-rawblock-tooltip,
+#write .md-rawblock-on-edit:hover .md-rawblock-tooltip,
+#write .md-rawblock-on-edit .md-mathblock-panel,
+#write .md-math-block .md-mathblock-panel,
+#write .md-math-block .code-tooltip,
+#write .mathjax-block > .code-tooltip,
+#write .md-mathjax-midline {
+  background: var(--bg-panel) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+#write .md-math-block .md-rawblock-tooltip,
+#write .md-rawblock-on-edit .md-rawblock-tooltip,
+#write .md-math-block .md-mathjax-preview {
+  background: var(--bg-panel) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+#write .md-math-block .md-rawblock-before,
+#write .md-math-block .md-rawblock-after,
+#write .md-math-block .md-mathblock-input {
+  background: rgba(242, 239, 223, 0.9) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+#write .md-math-block .CodeMirror,
+#write .md-math-block .CodeMirror-gutters,
+#write .md-math-block .CodeMirror-lines,
+#write .md-math-block .CodeMirror-code,
+#write .md-math-block .CodeMirror-line,
+#write .md-math-block pre.CodeMirror-line {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+#write .md-math-block .MathJax_SVG,
+#write .md-math-block .MathJax_SVG_Display,
+#write .md-math-block svg {
+  color: var(--text) !important;
+  background: transparent !important;
+}
+
 /* ==== UI Elements Outside Writing Area (Light Theme) ==== */
 /* Fix for settings dialog and other UI components */
-:not(#write *) {
+:not(#write *):not(.CodeMirror):not(.CodeMirror *) {
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
 }
@@ -870,7 +926,7 @@ input:not(#write *),
 select:not(#write *),
 button:not(#write *),
 label:not(#write *),
-span:not(#write *) {
+span:not(#write *):not(.CodeMirror *) {
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
 }
@@ -922,4 +978,27 @@ button:not(#write *),
   background-color: var(--bg-panel) !important;
   color: var(--text-color) !important;
   border-top: 1px solid var(--border) !important;
+}
+
+/* ==== Source Mode selection ==== */
+.CodeMirror-selected,
+#write .CodeMirror-selected,
+#typora-source .CodeMirror-selected,
+.CodeMirror-focused .CodeMirror-selected,
+#write .CodeMirror-focused .CodeMirror-selected,
+#typora-source .CodeMirror-focused .CodeMirror-selected,
+.cm-s-inner .CodeMirror-selected,
+.cm-s-typora-default .CodeMirror-selected,
+.cm-editor .cm-selectionBackground,
+.cm-editor.cm-focused .cm-selectionBackground {
+  background: transparent !important;
+}
+
+/* ==== Fix CodeMirror line highlighting ==== */
+#write .CodeMirror-activeline-background,
+#write .CodeMirror-linebackground,
+#write pre.CodeMirror-line .CodeMirror-linebackground,
+#write .CodeMirror-code .CodeMirror-activeline,
+#write .CodeMirror-activeline .CodeMirror-linebackground {
+  background: var(--bg-muted) !important;
 }

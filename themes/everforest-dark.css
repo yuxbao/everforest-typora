@@ -1165,5 +1165,5 @@ button:not(#write *),
 .cm-s-typora-default .CodeMirror-selected,
 .cm-editor .cm-selectionBackground,
 .cm-editor.cm-focused .cm-selectionBackground {
-  background: transparent !important;
+  background: var(--source-selection) !important;
 }
